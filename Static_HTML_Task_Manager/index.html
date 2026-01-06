@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Task Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tasks"></i> Task Manager</h1>
+            <p class="subtitle">Organize your day, one task at a time</p>
+        </header>
+        
+        <div class="app-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <input type="text" id="taskInput" placeholder="Enter a new task...">
+                    <button id="addTaskBtn" class="btn primary-btn">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </div>
+                <div class="filter-section">
+                    <span class="filter-label">Filter by:</span>
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                </div>
+            </div>
+            
+            <div class="stats-section">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalTasks">0</span>
+                    <span class="stat-label">Total Tasks</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="activeTasks">0</span>
+                    <span class="stat-label">Active</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="completedTasks">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+            </div>
+            
+            <div class="tasks-section">
+                <h2><i class="fas fa-list-check"></i> Your Tasks</h2>
+                <div class="tasks-container" id="tasksContainer">
+                    <!-- Tasks will be added here dynamically -->
+                    <div class="empty-state" id="emptyState">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h3>No tasks yet</h3>
+                        <p>Add your first task using the input above</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-section">
+                <button id="clearCompletedBtn" class="btn secondary-btn">
+                    <i class="fas fa-trash-can"></i> Clear Completed
+                </button>
+                <button id="clearAllBtn" class="btn danger-btn">
+                    <i class="fas fa-broom"></i> Clear All Tasks
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Simple Task Manager &copy; <span id="currentYear"></span> | Tasks saved locally in your browser</p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
