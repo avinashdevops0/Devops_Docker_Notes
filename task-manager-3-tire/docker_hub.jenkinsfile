@@ -62,5 +62,12 @@ pipeline {
                 
             }
         }
+        stage("Docker_Hub_Login") {
+            steps {
+                withDockerRegistry(credentialsId: 'Docker_Hub', url: 'https://index.docker.io/v1/') {
+    // some block
+}
+            }
+        }
     }
 }
