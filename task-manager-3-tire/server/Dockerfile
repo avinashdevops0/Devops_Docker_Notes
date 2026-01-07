@@ -7,7 +7,7 @@ LABEL app="backend_task_manager"
 WORKDIR /app
 
 COPY package*.json .
-RUN npm ci --only=production
+RUN npm install
 
 COPY . .
 
