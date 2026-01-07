@@ -6,7 +6,7 @@ LABEL app="backend_task_manager"
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package*.json .
 RUN npm ci --only=production
 
 COPY . .
