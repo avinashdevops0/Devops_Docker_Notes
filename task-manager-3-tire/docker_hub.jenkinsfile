@@ -56,8 +56,10 @@ pipeline {
                 sh """
                 docker exec ${DATABASE_CONTAINER_NAME} \
                 mysql -u dev_task_manager -ppassword123 \
-                -e "SHOW DATABASES;"
+                -e "SHOW DATABASES;"  
                 """
+                // // -e stands for execute. It tells the MySQL client to execute the given SQL statement and exit, instead of opening an interactive MySQL shell
+                
             }
         }
     }
