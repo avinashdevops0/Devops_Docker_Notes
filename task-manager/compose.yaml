@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: nginx:latest
+    container_name: fe
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - myappnet
+
+  backend:
+    build: ./backend
+    image: be
+    container_name: be
+    depends_on:
+      - database
+    networks:
+      - myappnet
+
+  database:
+    build: ./database
+    image: db
+    container_name: db
+    volumes:
+      - mydata:/var/lib/mysql
+    networks:
+      - myappnet
+
+volumes:
+  mydata:
+
+networks:
+  myappnet:
+    driver: bridge
