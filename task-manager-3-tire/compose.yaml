@@ -1,0 +1,13 @@
+---
+
+version : "3.8"
+services:
+  avinash:
+    container_name : "avinash"
+    build : ./database
+    ports: 
+      - 3306:3306
+    image: avinasg0/database
+
+...
+  
