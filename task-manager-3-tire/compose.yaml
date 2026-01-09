@@ -1,13 +1,31 @@
----
+version: "3.8"
 
-version : "3.8"
 services:
-  avinash:
-    container_name : "avinash"
-    build : ./database
-    ports: 
-      - 3306:3306
-    image: avinasg0/database
+  frontend:
+    container_name: frontend
+    build: ./client
+    image: avinashg0/task_manager_fe
+    ports:
+      - "80:80"
+    networks:
+      - myappnet
 
-...
-  
+  backend:
+    container_name: backend
+    build: ./server
+    image: avinashg0/task_manager_be
+    env_file:
+      - ./server/.env
+    networks:
+      - myappnet
+
+  database:
+    container_name: database
+    build: ./database
+    image: avinashg0/database
+    networks:
+      - myappnet
+
+networks:
+  myappnet:
+    driver: bridge
