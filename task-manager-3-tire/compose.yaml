@@ -1,31 +1,45 @@
 version: "3.8"
 
 services:
-  frontend:
-    container_name: frontend
+  frontend_task_manager:
+    container_name: frontend_task_manager
     build: ./client
     image: avinashg0/task_manager_fe
     ports:
       - "80:80"
     networks:
       - myappnet
+    depends_on:
+      - backend
 
-  backend:
-    container_name: backend
+  backend_task_manager:
+    container_name: backend_task_manager
     build: ./server
     image: avinashg0/task_manager_be
     env_file:
       - ./server/.env
     networks:
       - myappnet
+    depends_on:
+      - database
 
-  database:
-    container_name: database
+  mysql_task_manager:
+    container_name: mysql_task_manager
     build: ./database
-    image: avinashg0/database
+    image: avinashg0/task_manager_db
     networks:
       - myappnet
+    volumes:
+      - mydbvol:/var/lib/mysql
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: rootpassword
+    #   MYSQL_DATABASE: task_manager
+    #   MYSQL_USER: taskuser
+    #   MYSQL_PASSWORD: taskpass
 
 networks:
   myappnet:
     driver: bridge
+
+volumes:
+  mydbvol:
