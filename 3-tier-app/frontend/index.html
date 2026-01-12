@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Tier Application - User Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-layer-group"></i> 3-Tier Application</h1>
+            <p class="subtitle">MySQL + Node.js + HTML/CSS/JS</p>
+        </header>
+
+        <div class="app-container">
+            <!-- User Form Section -->
+            <section class="form-section">
+                <h2><i class="fas fa-user-edit"></i> User Form</h2>
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Name *</label>
+                        <input type="text" id="name" required placeholder="Enter full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email *</label>
+                        <input type="email" id="email" required placeholder="Enter email address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age"><i class="fas fa-birthday-cake"></i> Age</label>
+                        <input type="number" id="age" min="1" max="120" placeholder="Enter age">
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit" id="submitBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add User
+                        </button>
+                        <button type="button" id="updateBtn" class="btn btn-secondary" style="display: none;">
+                            <i class="fas fa-sync"></i> Update User
+                        </button>
+                        <button type="button" id="cancelBtn" class="btn btn-cancel" style="display: none;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="button" id="clearBtn" class="btn btn-clear">
+                            <i class="fas fa-broom"></i> Clear
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="api-status">
+                    <h3><i class="fas fa-server"></i> API Status</h3>
+                    <div id="apiStatus" class="status-checking">
+                        <i class="fas fa-circle-notch fa-spin"></i> Checking backend connection...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users List Section -->
+            <section class="list-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Users List</h2>
+                    <button id="refreshBtn" class="btn btn-refresh">
+                        <i class="fas fa-redo"></i> Refresh
+                    </button>
+                </div>
+                
+                <div id="loading" class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading users...
+                </div>
+                
+                <div id="usersContainer" class="users-container">
+                    <!-- Users will be loaded here dynamically -->
+                </div>
+                
+                <div id="noUsers" class="no-users" style="display: none;">
+                    <i class="fas fa-users-slash"></i>
+                    <p>No users found. Add your first user!</p>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Three-Tier Architecture: Presentation (HTML/CSS/JS) | Application (Node.js) | Data (MySQL)</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
