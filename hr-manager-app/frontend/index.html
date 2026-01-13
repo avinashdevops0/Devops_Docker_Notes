@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Manager Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-users-cog"></i> HR Manager Dashboard</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('employees')">
+                    <i class="fas fa-user-tie"></i> Employees
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('leaves')">
+                    <i class="fas fa-calendar-alt"></i> Leave Requests
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section active">
+            <h2><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h2>
+            <div class="stats-grid" id="stats-container">
+                <!-- Stats will be loaded here -->
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="chart-container">
+                    <h3>Employees by Department</h3>
+                    <canvas id="departmentChart"></canvas>
+                </div>
+                <div class="recent-activity">
+                    <h3>Recent Leave Requests</h3>
+                    <div id="recent-leaves">
+                        <!-- Recent leaves will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Employees Section -->
+        <section id="employees-section" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-user-tie"></i> Employee Management</h2>
+                <button class="btn btn-success" onclick="openEmployeeModal()">
+                    <i class="fas fa-plus"></i> Add Employee
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employees-table">
+                        <!-- Employees will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Leave Requests Section -->
+        <section id="leaves-section" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-calendar-alt"></i> Leave Requests</h2>
+                <button class="btn btn-success" onclick="openLeaveModal()">
+                    <i class="fas fa-plus"></i> New Leave Request
+                </button>
+            </div>
+            
+            <div class="filters">
+                <select id="leave-filter" onchange="loadLeaveRequests()">
+                    <option value="all">All Leaves</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaves-table">
+                        <!-- Leave requests will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Employee Modal -->
+        <div id="employee-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeEmployeeModal()">&times;</span>
+                <h3 id="modal-title">Add New Employee</h3>
+                <form id="employee-form" onsubmit="saveEmployee(event)">
+                    <input type="hidden" id="employee-id">
+                    
+                    <div class="form-group">
+                        <label for="employee_id">Employee ID *</label>
+                        <input type="text" id="employee_id" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first_name">First Name *</label>
+                            <input type="text" id="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name *</label>
+                            <input type="text" id="last_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <select id="department">
+                                <option value="">Select Department</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Sales">Sales</option>
+                                <option value="HR">HR</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Operations">Operations</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="text" id="position">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="salary">Salary</label>
+                            <input type="number" id="salary" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="hire_date">Hire Date *</label>
+                            <input type="date" id="hire_date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status">
+                            <option value="active">Active</option>
+                            <option value="on_leave">On Leave</option>
+                            <option value="terminated">Terminated</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeEmployeeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Leave Modal -->
+        <div id="leave-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeLeaveModal()">&times;</span>
+                <h3>New Leave Request</h3>
+                <form id="leave-form" onsubmit="saveLeaveRequest(event)">
+                    <div class="form-group">
+                        <label for="leave-employee">Employee *</label>
+                        <select id="leave-employee" required>
+                            <!-- Employees will be loaded here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="leave-type">Leave Type *</label>
+                        <select id="leave-type" required>
+                            <option value="vacation">Vacation</option>
+                            <option value="sick">Sick Leave</option>
+                            <option value="personal">Personal</option>
+                            <option value="maternity">Maternity</option>
+                            <option value="paternity">Paternity</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="start-date">Start Date *</label>
+                            <input type="date" id="start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-date">End Date *</label>
+                            <input type="date" id="end-date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="leave-reason">Reason</label>
+                        <textarea id="leave-reason" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeLeaveModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Leave Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  hr_db:
+    image: avinashg0/hr_db
+    container_name: hr_db
+    volumes:
+      - hr_db_vol:/var/lib/mysql
+    networks:
+      - hr
+
+  hr_be:
+    image: avinashg0/hr_be
+    container_name: hr_be
+    depends_on:
+      - hr_db
+    networks:
+      - hr
+    env_file:
+      - ./.env
+
+  hr_fe:
+    image: avinashg0/hr_fe
+    container_name: hr_fe
+    ports:
+      - "80:80"
+    depends_on:
+      - hr_be
+    networks:
+      - hr
+
+volumes:
+  hr_db_vol:
+
+networks:
+  hr:
+    driver: bridge
