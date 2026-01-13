@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   hr_db:
+    build: ./database
     image: avinashg0/hr_db
     container_name: hr_db
     volumes:
@@ -10,6 +11,7 @@ services:
       - hr
 
   hr_be:
+    build: ./backend
     image: avinashg0/hr_be
     container_name: hr_be
     depends_on:
@@ -17,9 +19,10 @@ services:
     networks:
       - hr
     env_file:
-      - ./.env
+      - ./backend/.env
 
   hr_fe:
+    build: ./frontend
     image: avinashg0/hr_fe
     container_name: hr_fe
     ports:

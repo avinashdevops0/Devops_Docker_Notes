@@ -22,17 +22,45 @@ const pool = mysql.createPool({
 });
 
 // Test database connection
-async function testConnection() {
-    try {
-        const connection = await pool.getConnection();
-        console.log('Database connected successfully');
-        connection.release();
-    } catch (error) {
-        console.error('Database connection failed:', error);
+// async function testConnection() {
+//     try {
+//         const connection = await pool.getConnection();
+//         console.log('Database connected successfully');
+//         connection.release();
+//     } catch (error) {
+//         console.error('Database connection failed:', error);
+//     }
+// }
+
+// testConnection();
+
+async function testConnection(retries = 5, delay = 3000) {
+    let attempt = 0;
+
+    while (attempt < retries) {
+        try {
+            const connection = await pool.getConnection();
+            await connection.query('SELECT 1'); // simple query to test DB
+            connection.release();
+            console.log('✅ Database connected successfully');
+            return; // exit function on success
+        } catch (error) {
+            attempt++;
+            console.error(`⏳ Database connection failed (attempt ${attempt}): ${error.message}`);
+            if (attempt < retries) {
+                // wait before retrying
+                await new Promise((resolve) => setTimeout(resolve, delay));
+            } else {
+                console.error('❌ Could not connect to database after multiple attempts');
+                throw error; // exit with error if all retries fail
+            }
+        }
     }
 }
 
+// Call it when starting your app
 testConnection();
+
 
 // ============ EMPLOYEE ROUTES ============
 
