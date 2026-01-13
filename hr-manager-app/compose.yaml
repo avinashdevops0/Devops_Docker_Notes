@@ -38,3 +38,49 @@ volumes:
 networks:
   hr:
     driver: bridge
+
+
+
+# version: "3.8"
+
+# services:
+#   hr_db:
+#     build: ./database
+#     image: avinashg0/hr_db
+#     deploy:
+#       replicas: 1  # must be 1 for safety
+#     volumes:
+#       - hr_db_vol:/var/lib/mysql
+#     networks:
+#       - hr
+
+#   hr_be:
+#     build: ./backend
+#     image: avinashg0/hr_be
+#     deploy:
+#       replicas: 2
+#     depends_on:
+#       - hr_db
+#     networks:
+#       - hr
+#     env_file:
+#       - ./backend/.env
+
+#   hr_fe:
+#     build: ./frontend
+#     image: avinashg0/hr_fe
+#     ports:
+#         - "80:80"
+#     deploy:
+#       replicas: 2
+#     depends_on:
+#       - hr_be
+#     networks:
+#       - hr
+
+# volumes:
+#   hr_db_vol:
+
+# networks:
+#   hr:
+#     driver: overlay  # use overlay for Swarm
